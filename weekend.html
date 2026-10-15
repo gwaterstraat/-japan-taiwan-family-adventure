@@ -290,9 +290,131 @@ function buildText(){
   out+="\nThis is a preference summary, not a booked itinerary.";
   return out;
 }
+
 function generateReport(){
-  document.getElementById("report").textContent=buildText();
-  document.getElementById("status").textContent="Report generated. You can copy it below.";
+  const d = getData();
+  const selected = Object.keys(d.grouped);
+  const destination = d.destination;
+
+  const places = {
+    "Sightseeing & Outdoors": {
+      "Los Angeles": [
+        ["Griffith Observatory","Iconic city and Hollywood Sign views.","https://www.google.com/maps/search/?api=1&query=Griffith+Observatory"],
+        ["The Getty Center","Art, gardens, architecture and sweeping views.","https://www.google.com/maps/search/?api=1&query=Getty+Center"],
+        ["Santa Monica Pier","Classic beachside sightseeing and sunset walks.","https://www.google.com/maps/search/?api=1&query=Santa+Monica+Pier"]
+      ],
+      "Orange County": [
+        ["Laguna Beach","Coastal scenery, art galleries and oceanfront walks.","https://www.google.com/maps/search/?api=1&query=Laguna+Beach+California"],
+        ["Crystal Cove State Park","Scenic coastline, beach walks and hiking.","https://www.google.com/maps/search/?api=1&query=Crystal+Cove+State+Park"],
+        ["Newport Beach","Harbor views, beaches and waterfront strolling.","https://www.google.com/maps/search/?api=1&query=Newport+Beach+California"]
+      ]
+    },
+    "Food & Drinks": {
+      "Los Angeles": [
+        ["Grand Central Market","A downtown food hall with many dining options.","https://www.google.com/maps/search/?api=1&query=Grand+Central+Market+Los+Angeles"],
+        ["Original Farmers Market","A classic destination for food stalls and casual dining.","https://www.google.com/maps/search/?api=1&query=Original+Farmers+Market+Los+Angeles"]
+      ],
+      "Orange County": [
+        ["Anaheim Packing District","A popular food hall and dining destination.","https://www.google.com/maps/search/?api=1&query=Anaheim+Packing+District"],
+        ["4th Street Market","A casual food hall in downtown Santa Ana.","https://www.google.com/maps/search/?api=1&query=4th+Street+Market+Santa+Ana"]
+      ]
+    },
+    "Shopping": {
+      "Los Angeles": [
+        ["The Grove","Open-air shopping, dining and entertainment.","https://www.google.com/maps/search/?api=1&query=The+Grove+Los+Angeles"],
+        ["Abbot Kinney Boulevard","Independent boutiques and a lively Venice neighborhood.","https://www.google.com/maps/search/?api=1&query=Abbot+Kinney+Boulevard"]
+      ],
+      "Orange County": [
+        ["South Coast Plaza","Extensive upscale shopping and dining.","https://www.google.com/maps/search/?api=1&query=South+Coast+Plaza"],
+        ["Fashion Island","Open-air shopping and restaurants in Newport Beach.","https://www.google.com/maps/search/?api=1&query=Fashion+Island+Newport+Beach"]
+      ]
+    },
+    "Arts & Culture": {
+      "Los Angeles": [
+        ["The Broad","Contemporary art museum in downtown LA.","https://www.google.com/maps/search/?api=1&query=The+Broad+Los+Angeles"],
+        ["Walt Disney Concert Hall","Distinctive architecture and performances.","https://www.google.com/maps/search/?api=1&query=Walt+Disney+Concert+Hall"]
+      ],
+      "Orange County": [
+        ["Laguna Art Museum","Art connected to California and its coastal communities.","https://www.google.com/maps/search/?api=1&query=Laguna+Art+Museum"],
+        ["Mission San Juan Capistrano","Historic mission, gardens and local history.","https://www.google.com/maps/search/?api=1&query=Mission+San+Juan+Capistrano"]
+      ]
+    },
+    "Activities & Adventure": {
+      "Los Angeles": [
+        ["Universal Studios Hollywood","Theme park rides and a behind-the-scenes studio tour.","https://www.google.com/maps/search/?api=1&query=Universal+Studios+Hollywood"],
+        ["Griffith Park","Hiking trails, outdoor recreation and scenic viewpoints.","https://www.google.com/maps/search/?api=1&query=Griffith+Park+Los+Angeles"]
+      ],
+      "Orange County": [
+        ["Disneyland Resort","A major theme park destination in Anaheim.","https://www.google.com/maps/search/?api=1&query=Disneyland+Resort"],
+        ["Dana Point Harbor","Waterfront activities and opportunities for boat excursions.","https://www.google.com/maps/search/?api=1&query=Dana+Point+Harbor"]
+      ]
+    },
+    "Nightlife & Evening": {
+      "Los Angeles": [
+        ["West Hollywood","Restaurants, cocktail lounges and nightlife.","https://www.google.com/maps/search/?api=1&query=West+Hollywood+nightlife"],
+        ["Santa Monica","Coastal dining and evening entertainment.","https://www.google.com/maps/search/?api=1&query=Santa+Monica+restaurants"]
+      ],
+      "Orange County": [
+        ["Huntington Beach Main Street","Beach-town restaurants and evening hangouts.","https://www.google.com/maps/search/?api=1&query=Huntington+Beach+Main+Street"],
+        ["Downtown Laguna Beach","Coastal restaurants and an evening stroll.","https://www.google.com/maps/search/?api=1&query=Downtown+Laguna+Beach"]
+      ]
+    }
+  };
+
+  let destinations = destination === "Either LA or Orange County"
+    ? ["Los Angeles","Orange County"]
+    : [destination];
+
+  let recommendations = [];
+  selected.forEach(category => {
+    destinations.forEach(city => {
+      const matches = places[category] && places[category][city];
+      if(matches){
+        matches.slice(0,2).forEach(place => {
+          recommendations.push({
+            category:category,
+            city:city,
+            name:place[0],
+            description:place[1],
+            url:place[2]
+          });
+        });
+      }
+    });
+  });
+
+  let output = "WEEKEND RECOMMENDATIONS\n";
+  output += "For: " + d.name + "\n";
+  output += "Destination: " + destination + "\n";
+  output += "Dates: " + d.dates + "\n";
+  output += "Budget: " + d.budget + "\n";
+  output += "Pace: " + d.pace + "\n\n";
+
+  if(recommendations.length === 0){
+    output += "Choose one or more activity preferences to receive recommendations.";
+  } else {
+    let lastCategory = "";
+    recommendations.forEach((place,i) => {
+      if(place.category !== lastCategory){
+        output += "\n" + place.category.toUpperCase() + "\n";
+        lastCategory = place.category;
+      }
+      output += (i+1) + ". " + place.name + " (" + place.city + ")\n";
+      output += "   " + place.description + "\n";
+      output += "   Map: " + place.url + "\n\n";
+    });
+  }
+
+  output += "ADDITIONAL NOTES\n" + d.notes + "\n";
+  output += "\nThese are suggested places, not reservations. Check opening hours, tickets and prices before visiting.";
+
+  document.getElementById("report").textContent = output;
+  document.getElementById("status").textContent =
+    recommendations.length
+      ? recommendations.length + " recommendations generated. Use Copy Report to share them."
+      : "Select activities above, then generate your recommendations.";
+}
+
 }
 async function copyText(text){
   const status=document.getElementById("status");
