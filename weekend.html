@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6750a4">
+<title>Weekend Getaway Planner</title>
+<style>
+:root{--bg:#f6f3ee;--card:#fff;--ink:#202124;--muted:#687078;--accent:#6750a4;--line:#e3dfeb}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+header{padding:30px 20px 22px;background:#fff;border-bottom:1px solid var(--line)}
+header h1{font-size:28px;line-height:1.2;margin:8px 0}
+header p{color:var(--muted);margin:8px 0 0}
+main{max-width:760px;margin:auto;padding:18px 16px 45px}
+.card,.slide{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}
+h2{font-size:21px;margin:0 0 12px}
+h3{margin:0 0 8px;font-size:18px}
+label.field{display:block;font-weight:600;margin:14px 0 5px}
+input[type=text],select,textarea{width:100%;padding:12px;border:1px solid #d4d0dc;border-radius:10px;background:white;color:var(--ink);font:inherit}
+fieldset{border:0;padding:0;margin:0}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.option{display:flex;gap:9px;align-items:flex-start;padding:11px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.option input{margin-top:5px;accent-color:var(--accent);flex-shrink:0}
+button{font:inherit;font-weight:650;border:0;border-radius:11px;padding:12px 16px;cursor:pointer}
+.primary{background:var(--accent);color:white}
+.secondary{background:#eee9f8;color:#39266d}
+button:active{opacity:.8}
+.topnav{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.progress{font-size:13px;color:var(--muted);margin-bottom:10px}
+.swipehint{color:var(--muted);font-size:14px;margin:0 0 12px}
+.slides{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding-bottom:12px;-webkit-overflow-scrolling:touch}
+.slide{flex:0 0 100%;width:100%;margin:0;scroll-snap-align:start;scroll-snap-stop:always}
+.slideintro{min-height:155px;display:flex;flex-direction:column;justify-content:center;background:#eee9f8}
+.emoji{font-size:32px}
+.slidecontrols{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px}
+.slidecontrols button{flex:1}
+.small{font-size:13px;color:var(--muted)}
+#report{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
+footer{max-width:760px;margin:auto;padding:0 16px 24px;color:var(--muted);font-size:13px}
+.sticky{position:sticky;bottom:8px;z-index:5;display:flex;justify-content:center;gap:8px;padding:9px;background:#ffffffed;border:1px solid var(--line);border-radius:14px;margin-top:18px}
+.sticky button{flex:1}
+@media(max-width:420px){.options{grid-template-columns:1fr}header h1{font-size:25px}.card,.slide{padding:16px}}
+</style>
+</head>
+<body>
+<header id="top">
+  <div class="small">YOUR PERSONAL TRAVEL PLANNER</div>
+  <h1>☀️ Weekend Getaway</h1>
+  <p>Build a weekend around what you love. Choose your destination, swipe through activity types, and generate a shareable preference report.</p>
+  <div class="topnav">
+    <button class="secondary" onclick="goTo('survey')">Start planning ↓</button>
+    <button class="secondary" onclick="goTo('reportCard')">Go to report ↓</button>
+  </div>
+</header>
+
+<main>
+<section class="card" id="survey">
+  <h2>1. Tell us about yourself</h2>
+  <label class="field" for="traveler">Who's planning?</label>
+  <select id="traveler">
+    <option value="">Choose a name</option>
+    <option>Brandy</option>
+    <option>Tinsley</option>
+    <option>Reef</option>
+    <option>George</option>
+  </select>
+
+  <label class="field" for="destination">Where should your visitor explore?</label>
+  <select id="destination">
+    <option value="Orange County">Orange County</option>
+    <option value="Los Angeles">Los Angeles</option>
+    <option value="Either LA or Orange County">Either LA or Orange County</option>
+  </select>
+
+  <label class="field" for="dates">Weekend dates (optional)</label>
+  <input id="dates" type="text" placeholder="e.g. November 7–9">
+
+  <label class="field" for="budget">Budget per person, excluding lodging</label>
+  <select id="budget">
+    <option>Budget-friendly</option>
+    <option selected>Moderate</option>
+    <option>Upscale</option>
+    <option>Luxury</option>
+  </select>
+
+  <label class="field" for="pace">Preferred pace</label>
+  <select id="pace">
+    <option>Relaxed — plenty of downtime</option>
+    <option selected>Balanced — a mix of activities and downtime</option>
+    <option>Action-packed — see as much as possible</option>
+  </select>
+
+  <label class="field" for="notes">Anything else we should know?</label>
+  <textarea id="notes" rows="3" placeholder="Interests, dietary needs, must-see places, or special occasions"></textarea>
+</section>
+
+<section class="card">
+  <h2>2. Swipe through activity types</h2>
+  <p class="swipehint">Swipe left to explore each category. Check everything that sounds appealing. Use the arrows if you prefer.</p>
+  <div class="progress" id="progress">Category 1 of 6</div>
+
+  <div class="slides" id="slides">
+    <article class="slide slideintro">
+      <div class="emoji">🌊</div>
+      <h2>Choose your adventure</h2>
+      <p>Six categories to help tailor the weekend to your visitor.</p>
+      <p class="small">Swipe left to begin →</p>
+    </article>
+
+    <article class="slide">
+      <div class="emoji">🍽️</div>
+      <h3>Food & Drinks</h3>
+      <p class="small">What would you like to eat or drink?</p>
+      <fieldset class="options">
+        <label class="option"><input type="checkbox" value="Beachfront dining" data-cat="Food & Drinks">Beachfront dining</label>
+        <label class="option"><input type="checkbox" value="Local food favorites" data-cat="Food & Drinks">Local food favorites</label>
+        <label class="option"><input type="checkbox" value="Brunch and coffee" data-cat="Food & Drinks">Brunch and coffee</label>
+        <label class="option"><input type="checkbox" value="Food halls and markets" data-cat="Food & Drinks">Food halls and markets</label>
+        <label class="option"><input type="checkbox" value="Fine dining" data-cat="Food & Drinks">Fine dining</label>
+        <label class="option"><input type="checkbox" value="Casual tacos and street food" data-cat="Food & Drinks">Casual tacos and street food</label>
+        <label class="option"><input type="checkbox" value="Breweries and cocktail bars" data-cat="Food & Drinks">Breweries and cocktail bars</label>
+        <label class="option"><input type="checkbox" value="Desserts and bakeries" data-cat="Food & Drinks">Desserts and bakeries</label>
+      </fieldset>
+    </article>
+
+    <article class="slide">
+      <div class="emoji">🏞️</div>
+      <h3>Sightseeing & Outdoors</h3>
+      <p class="small">Explore the scenery and iconic sights.</p>
+      <fieldset class="options">
+        <label class="option"><input type="checkbox" value="Dramatic coastal views" data-cat="Sightseeing & Outdoors">Dramatic coastal views</label>
+        <label class="option"><input type="checkbox" value="Beach walks and tide pools" data-cat="Sightseeing & Outdoors">Beach walks and tide pools</label>
+        <label class="option"><input type="checkbox" value="Scenic hikes" data-cat="Sightseeing & Outdoors">Scenic hikes</label>
+        <label class="option"><input type="checkbox" value="Famous landmarks" data-cat="Sightseeing & Outdoors">Famous landmarks</label>
+        <label class="option"><input type="checkbox" value="Gardens and parks" data-cat="Sightseeing & Outdoors">Gardens and parks</label>
+        <label class="option"><input type="checkbox" value="Sunset viewpoints" data-cat="Sightseeing & Outdoors">Sunset viewpoints</label>
+        <label class="option"><input type="checkbox" value="Harbor or boat tour" data-cat="Sightseeing & Outdoors">Harbor or boat tour</label>
+        <label class="option"><input type="checkbox" value="Architecture and neighborhoods" data-cat="Sightseeing & Outdoors">Architecture and neighborhoods</label>
+      </fieldset>
+    </article>
+
+    <article class="slide">
+      <div class="emoji">🛍️</div>
+      <h3>Shopping</h3>
+      <p class="small">Browse, discover, and find something unique.</p>
+      <fieldset class="options">
+        <label class="option"><input type="checkbox" value="Boutique shopping districts" data-cat="Shopping">Boutique shopping districts</label>
+        <label class="option"><input type="checkbox" value="Upscale shopping" data-cat="Shopping">Upscale shopping</label>
+        <label class="option"><input type="checkbox" value="Vintage and thrift stores" data-cat="Shopping">Vintage and thrift stores</label>
+        <label class="option"><input type="checkbox" value="Local makers and artisan shops" data-cat="Shopping">Local makers and artisan shops</label>
+        <label class="option"><input type="checkbox" value="Farmers markets" data-cat="Shopping">Farmers markets</label>
+        <label class="option"><input type="checkbox" value="Outdoor shopping centers" data-cat="Shopping">Outdoor shopping centers</label>
+      </fieldset>
+    </article>
+
+    <article class="slide">
+      <div class="emoji">🎨</div>
+      <h3>Arts & Culture</h3>
+      <p class="small">Creative, educational, and cultural experiences.</p>
+      <fieldset class="options">
+        <label class="option"><input type="checkbox" value="Art museums and galleries" data-cat="Arts & Culture">Art museums and galleries</label>
+        <label class="option"><input type="checkbox" value="Live music" data-cat="Arts & Culture">Live music</label>
+        <label class="option"><input type="checkbox" value="Theater and comedy" data-cat="Arts & Culture">Theater and comedy</label>
+        <label class="option"><input type="checkbox" value="Historic districts" data-cat="Arts & Culture">Historic districts</label>
+        <label class="option"><input type="checkbox" value="Film and entertainment attractions" data-cat="Arts & Culture">Film and entertainment attractions</label>
+        <label class="option"><input type="checkbox" value="Aquariums and science museums" data-cat="Arts & Culture">Aquariums and science museums</label>
+      </fieldset>
+    </article>
+
+    <article class="slide">
+      <div class="emoji">🏄</div>
+      <h3>Activities & Adventure</h3>
+      <p class="small">Get moving or try something different.</p>
+      <fieldset class="options">
+        <label class="option"><input type="checkbox" value="Surfing or paddleboarding" data-cat="Activities & Adventure">Surfing or paddleboarding</label>
+        <label class="option"><input type="checkbox" value="Bike rides" data-cat="Activities & Adventure">Bike rides</label>
+        <label class="option"><input type="checkbox" value="Kayaking" data-cat="Activities & Adventure">Kayaking</label>
+        <label class="option"><input type="checkbox" value="Amusement parks" data-cat="Activities & Adventure">Amusement parks</label>
+        <label class="option"><input type="checkbox" value="Escape rooms and games" data-cat="Activities & Adventure">Escape rooms and games</label>
+        <label class="option"><input type="checkbox" value="Spa and wellness" data-cat="Activities & Adventure">Spa and wellness</label>
+        <label class="option"><input type="checkbox" value="Sports and stadiums" data-cat="Activities & Adventure">Sports and stadiums</label>
+        <label class="option"><input type="checkbox" value="Unique local experiences" data-cat="Activities & Adventure">Unique local experiences</label>
+      </fieldset>
+    </article>
+
+    <article class="slide">
+      <div class="emoji">🌙</div>
+      <h3>Nightlife & Evening</h3>
+      <p class="small">How should the evenings feel?</p>
+      <fieldset class="options">
+        <label class="option"><input type="checkbox" value="Sunset dinner" data-cat="Nightlife & Evening">Sunset dinner</label>
+        <label class="option"><input type="checkbox" value="Cocktail lounges" data-cat="Nightlife & Evening">Cocktail lounges</label>
+        <label class="option"><input type="checkbox" value="Live music venues" data-cat="Nightlife & Evening">Live music venues</label>
+        <label class="option"><input type="checkbox" value="Lively nightlife" data-cat="Nightlife & Evening">Lively nightlife</label>
+        <label class="option"><input type="checkbox" value="Rooftop bars" data-cat="Nightlife & Evening">Rooftop bars</label>
+        <label class="option"><input type="checkbox" value="Quiet evening by the coast" data-cat="Nightlife & Evening">Quiet evening by the coast</label>
+      </fieldset>
+    </article>
+  </div>
+
+  <div class="slidecontrols">
+    <button class="secondary" onclick="moveSlide(-1)">← Previous</button>
+    <button class="secondary" onclick="moveSlide(1)">Next →</button>
+  </div>
+  <p class="small">Your selections stay checked as you move between categories.</p>
+</section>
+
+<section class="card" id="reportCard">
+  <h2>3. Your weekend preferences report</h2>
+  <p>Generate a summary of your choices to share with your visitor or use to build an itinerary.</p>
+  <button class="primary" style="width:100%" onclick="generateReport()">Generate Report</button>
+  <div id="report" aria-live="polite" style="margin-top:16px"></div>
+  <div class="topnav">
+    <button class="secondary" onclick="copyPreferences()">Copy Preferences</button>
+    <button class="secondary" onclick="copyReport()">Copy Report</button>
+  </div>
+  <p id="status" class="small" aria-live="polite"></p>
+</section>
+
+<div class="sticky">
+  <button class="secondary" onclick="goTo('top')">↑ Go to top</button>
+  <button class="secondary" onclick="goTo('reportCard')">↓ Go to bottom</button>
+</div>
+</main>
+<footer>
+  This planner records selections in this page only. It does not book activities or verify live prices, opening hours, or availability.
+</footer>
+
+<script>
+let slideIndex = 0;
+const slides = document.querySelectorAll(".slide");
+const slideTrack = document.getElementById("slides");
+
+function updateProgress(){
+  document.getElementById("progress").textContent =
+    "Category " + Math.max(1,slideIndex) + " of 6";
+}
+function moveSlide(direction){
+  slideIndex = Math.max(0,Math.min(slides.length-1,slideIndex+direction));
+  slides[slideIndex].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});
+  updateProgress();
+}
+slideTrack.addEventListener("scroll",()=>{
+  let best=0, distance=Infinity;
+  slides.forEach((s,i)=>{
+    const d=Math.abs(s.getBoundingClientRect().left-slideTrack.getBoundingClientRect().left);
+    if(d<distance){distance=d;best=i;}
+  });
+  slideIndex=best;
+  updateProgress();
+},{passive:true});
+
+function getData(){
+  const selected=[...document.querySelectorAll('input[type="checkbox"]:checked')];
+  const grouped={};
+  selected.forEach(el=>{
+    const category=el.dataset.cat;
+    if(!grouped[category])grouped[category]=[];
+    grouped[category].push(el.value);
+  });
+  return {
+    name:document.getElementById("traveler").value||"Not specified",
+    destination:document.getElementById("destination").value,
+    dates:document.getElementById("dates").value.trim()||"Not specified",
+    budget:document.getElementById("budget").value,
+    pace:document.getElementById("pace").value,
+    notes:document.getElementById("notes").value.trim()||"None provided",
+    grouped
+  };
+}
+function buildText(){
+  const d=getData();
+  let out="WEEKEND GETAWAY PREFERENCES\n";
+  out+="===========================\n";
+  out+="Planner: "+d.name+"\nDestination: "+d.destination+
+    "\nDates: "+d.dates+"\nBudget: "+d.budget+"\nPace: "+d.pace+"\n";
+  out+="\nACTIVITY PREFERENCES\n";
+  if(!Object.keys(d.grouped).length)out+="No activities selected yet.\n";
+  Object.keys(d.grouped).forEach(cat=>{
+    out+="\n"+cat+"\n";
+    d.grouped[cat].forEach(item=>out+="• "+item+"\n");
+  });
+  out+="\nADDITIONAL NOTES\n"+d.notes+"\n";
+  out+="\nThis is a preference summary, not a booked itinerary.";
+  return out;
+}
+function generateReport(){
+  document.getElementById("report").textContent=buildText();
+  document.getElementById("status").textContent="Report generated. You can copy it below.";
+}
+async function copyText(text){
+  const status=document.getElementById("status");
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text);
+    }else{
+      const area=document.createElement("textarea");
+      area.value=text;
+      area.style.position="fixed";
+      area.style.opacity="0";
+      document.body.appendChild(area);
+      area.select();
+      const ok=document.execCommand("copy");
+      area.remove();
+      if(!ok)throw new Error("Copy unavailable");
+    }
+    status.textContent="Copied to clipboard!";
+  }catch(e){
+    status.textContent="Automatic copy isn't available here. Select and copy the report text manually.";
+  }
+}
+function copyPreferences(){
+  copyText(buildText());
+}
+function copyReport(){
+  const report=document.getElementById("report").textContent;
+  if(!report.trim()){
+    generateReport();
+    copyText(buildText());
+  }else{
+    copyText(report);
+  }
+}
+function goTo(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"});
+}
+</script>
+</body>
+</html>
