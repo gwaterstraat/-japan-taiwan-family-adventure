@@ -25,7 +25,7 @@ input,select,textarea{font:inherit;color:var(--ink)}
 select,input[type=date],textarea{width:100%;padding:12px;border:1px solid #cbd2df;border-radius:11px;background:white;min-height:46px}
 textarea{min-height:82px;resize:vertical}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
-.deck{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#c9c4ef transparent;-webkit-overflow-scrolling:touch;padding:4px 2px 14px;margin:0 -2px;overscroll-behavior-x:contain}
+.deck{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#c9c4ef transparent;-webkit-overflow-scrolling:touch;padding:4px 2px 14px;margin:0 -2px;overscroll-behavior-x:contain;scroll-behavior:smooth}
 .slide{flex:0 0 min(86%,570px);min-width:0;scroll-snap-align:start;background:white;border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 3px 14px #25304a08}
 .preferenceDeck .slide{flex-basis:min(88%,420px)}
 .categorySlide{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;background:linear-gradient(145deg,#eee9ff,#fff8ee);min-height:240px}
@@ -39,9 +39,10 @@ textarea{min-height:82px;resize:vertical}
 button{font:inherit;font-weight:750;border:0;border-radius:11px;padding:12px 16px;min-height:46px;background:var(--accent);color:#fff;cursor:pointer}
 button.secondary{background:white;color:var(--ink);border:1px solid var(--line)}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #b5adff;outline-offset:2px}
-.swipeGuide{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f0edff;border:1px solid #d8d1ff;border-radius:13px;padding:11px 12px;margin:12px 0 8px;color:#453aa7}
-.swipeGuide strong{font-size:13px;letter-spacing:.04em}
-.swipeGuide .arrows{font-size:21px;font-weight:900;white-space:nowrap}
+.swipeGuide{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#f0edff;border:1px solid #d8d1ff;border-radius:13px;padding:11px 12px;margin:12px 0 8px;color:#453aa7}
+.swipeGuide strong{font-size:12px;letter-spacing:.04em}
+.swipeGuide .arrows{display:flex;gap:8px;white-space:nowrap}
+.swipeGuide .arrow{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#453aa7;color:white;font-size:19px;font-weight:800;line-height:1}
 .deckHint{margin:0 0 9px;font-size:13px;color:var(--muted)}
 .deckNav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;margin-top:2px}
 .deckNav button{min-height:48px;padding:10px 12px}
@@ -64,7 +65,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 footer{padding:0 18px 30px;color:var(--muted);font-size:12px}
 .sectionHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .empty{padding:22px;border:1px dashed #c6c9d6;border-radius:14px}
-@media(max-width:560px){.grid{grid-template-columns:1fr}.panel{border-radius:16px}.slide,.preferenceDeck .slide{flex-basis:88%}.actions button{flex:1 1 auto}.deckNav button{font-size:14px;padding:10px 8px}}
+@media(max-width:560px){
+.grid{grid-template-columns:1fr}.panel{border-radius:16px}
+.slide,.preferenceDeck .slide{flex-basis:100%;scroll-snap-align:start}
+.deck{padding-left:0;padding-right:0;scroll-padding-inline:0}
+.actions button{flex:1 1 auto}.deckNav button{font-size:14px;padding:10px 8px}
+}
 </style>
 </head>
 <body>
@@ -82,7 +88,7 @@ footer{padding:0 18px 30px;color:var(--muted);font-size:12px}
 </div>
 <h2 style="margin-top:22px">2. What sounds fun?</h2>
 <p class="hint">Choose a category, then select any specific interests you want us to prioritize.</p>
-<div class="swipeGuide" aria-label="Swipe instructions"><strong>SWIPE LEFT OR RIGHT TO EXPLORE</strong><span class="arrows" aria-hidden="true">â &nbsp; â</span></div>
+<div class="swipeGuide" aria-label="Swipe instructions"><strong>SWIPE LEFT OR RIGHT TO EXPLORE</strong><span class="arrows" aria-hidden="true"><span class="arrow">â</span><span class="arrow">â</span></span></div>
 <p class="deckHint">You can also tap Next to move through all 6 categories.</p>
 <div id="preferenceDeck" class="deck preferenceDeck" aria-label="Activity preference cards"></div>
 <div class="deckNav"><button type="button" class="secondary prevButton" id="prefPrevious">â Previous</button><span class="counter" id="prefCounter" aria-live="polite">1 of 6</span><button type="button" class="nextButton" id="prefNext">Next â</button></div>
@@ -90,7 +96,7 @@ footer{padding:0 18px 30px;color:var(--muted);font-size:12px}
 <label class="field" for="notes">Anything else we should know?</label><textarea id="notes" placeholder="Ocean views, great food, teen-friendly, something unusual..."></textarea>
 <div class="actions"><button type="button" id="recommend">Generate recommendations</button></div><p id="setupStatus" class="muted" role="status" aria-live="polite"></p>
 </section>
-<section class="panel hidden" id="results"><div class="sectionHead"><div><h2>3. Explore recommendations</h2><p id="matchSummary" class="hint"></p></div><span id="count" class="counter">0 saved</span></div><p class="hint">Swipe left or right through category cards and places, or use Previous and Next. Save any place you like.</p><div class="swipeGuide"><strong>SWIPE LEFT OR RIGHT TO EXPLORE</strong><span class="arrows" aria-hidden="true">â &nbsp; â</span></div><div id="resultsDeck" class="deck" aria-label="Recommendation cards"></div><div class="deckNav"><button type="button" class="secondary prevButton" id="previous">â Previous</button><span class="counter" id="resultCounter" aria-live="polite">1 of 1</span><button type="button" class="nextButton" id="next">Next â</button></div><div id="resultsDots" class="dots" aria-label="Recommendation card navigation"></div><div class="actions"><button type="button" class="secondary" id="edit">Edit preferences</button></div></section>
+<section class="panel hidden" id="results"><div class="sectionHead"><div><h2>3. Explore recommendations</h2><p id="matchSummary" class="hint"></p></div><span id="count" class="counter">0 saved</span></div><p class="hint">Swipe left or right through category cards and places, or use Previous and Next. Save any place you like.</p><div class="swipeGuide"><strong>SWIPE LEFT OR RIGHT TO EXPLORE</strong><span class="arrows" aria-hidden="true"><span class="arrow">â</span><span class="arrow">â</span></span></div><div id="resultsDeck" class="deck" aria-label="Recommendation cards"></div><div class="deckNav"><button type="button" class="secondary prevButton" id="previous">â Previous</button><span class="counter" id="resultCounter" aria-live="polite">1 of 1</span><button type="button" class="nextButton" id="next">Next â</button></div><div id="resultsDots" class="dots" aria-label="Recommendation card navigation"></div><div class="actions"><button type="button" class="secondary" id="edit">Edit preferences</button></div></section>
 <section class="panel" id="reportPanel"><h2>4. Your weekend plan</h2><p class="hint">Generate a shareable summary of your preferences and saved places.</p><div class="actions"><button type="button" id="generateReport">Generate report</button><button type="button" class="secondary" id="copyReport">Copy report</button><button type="button" class="secondary" id="copyPreferences">Copy preferences</button><button type="button" class="secondary" id="clearSaved">Clear saved places</button></div><p id="status" role="status" aria-live="polite"></p><div id="report">Your report will appear here after you tap Generate report.</div></section>
 </main><footer>Starter recommendations, not live availability. Check official venue websites for current hours, prices, tickets, accessibility, and reservations before heading out.</footer>
 <script>
