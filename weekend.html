@@ -12,7 +12,6 @@
   --accent:#6558d9;
   --soft:#f3f3ff;
   --line:#e1e5ed;
-  --white:#ffffff;
 }
 * { box-sizing:border-box; }
 body {
@@ -27,12 +26,11 @@ header {
   color:white;
   background:linear-gradient(135deg,#5146bd,#8a6bdc);
 }
-header, main { max-width:850px; margin:auto; }
+header,.hero { max-width:850px; margin:auto; }
 header { max-width:none; }
-.hero { max-width:850px; margin:auto; }
 h1 { margin:0 0 7px; font-size:30px; line-height:1.15; }
 header p { margin:0; opacity:.92; }
-main { padding:16px; }
+main { max-width:850px; margin:auto; padding:16px; }
 .panel {
   background:white;
   border:1px solid var(--line);
@@ -45,89 +43,31 @@ h2 { font-size:20px; margin:0 0 12px; }
 h3 { font-size:17px; margin:0 0 6px; }
 label.field { display:block; font-weight:650; margin:12px 0 5px; }
 input,select,textarea {
-  width:100%;
-  padding:11px 12px;
-  border:1px solid #cbd2df;
-  border-radius:10px;
-  font:inherit;
-  background:white;
-  color:var(--ink);
+  width:100%; padding:11px 12px; border:1px solid #cbd2df;
+  border-radius:10px; font:inherit; background:white; color:var(--ink);
 }
 textarea { min-height:76px; resize:vertical; }
-.grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
+.grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
 .categories {
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:3px 0 12px;
-  scrollbar-width:thin;
+  display:flex; gap:8px; overflow-x:auto; padding:3px 0 12px;
 }
 .category {
-  flex:0 0 auto;
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:9px 13px;
-  background:white;
-  color:var(--ink);
-  font-weight:650;
+  flex:0 0 auto; border:1px solid var(--line); border-radius:999px;
+  padding:9px 13px; background:white; color:var(--ink); font-weight:650;
 }
-.category.active {
-  background:var(--accent);
-  color:white;
-  border-color:var(--accent);
-}
+.category.active { background:var(--accent); color:white; border-color:var(--accent); }
 .hint { color:var(--muted); font-size:13px; margin:0 0 12px; }
-.place {
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:14px;
-  margin:10px 0;
-}
+.place { border:1px solid var(--line); border-radius:13px; padding:14px; margin:10px 0; }
 .place-top { display:flex; gap:10px; align-items:flex-start; }
-.place input[type=checkbox] {
-  width:20px; height:20px; margin-top:3px; flex-shrink:0;
-  accent-color:var(--accent);
-}
+.place input[type=checkbox] { width:20px; height:20px; margin-top:3px; flex-shrink:0; accent-color:var(--accent); }
 .place p { margin:5px 0 9px; color:var(--muted); font-size:14px; }
 .tags { display:flex; flex-wrap:wrap; gap:6px; margin:7px 0; }
-.tag {
-  font-size:12px;
-  padding:3px 8px;
-  border-radius:20px;
-  background:var(--soft);
-  color:#5146bd;
-}
+.tag { font-size:12px; padding:3px 8px; border-radius:20px; background:var(--soft); color:#5146bd; }
 a { color:#5146bd; font-weight:650; }
 .actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:12px; }
-button {
-  border:0;
-  border-radius:10px;
-  padding:11px 15px;
-  background:var(--accent);
-  color:white;
-  font:inherit;
-  font-weight:700;
-  cursor:pointer;
-}
-button.secondary {
-  background:white;
-  color:var(--ink);
-  border:1px solid var(--line);
-}
-button:active { transform:scale(.99); }
-#report {
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-  background:#f8f9fc;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:14px;
-  min-height:70px;
-}
+button { border:0; border-radius:10px; padding:11px 15px; background:var(--accent); color:white; font:inherit; font-weight:700; cursor:pointer; }
+button.secondary { background:white; color:var(--ink); border:1px solid var(--line); }
+#report { white-space:pre-wrap; overflow-wrap:anywhere; background:#f8f9fc; border:1px solid var(--line); border-radius:10px; padding:14px; min-height:70px; }
 #status { color:#5146bd; font-size:14px; margin-top:9px; }
 footer { text-align:center; color:var(--muted); font-size:12px; padding:12px 18px 30px; }
 @media(max-width:520px) {
@@ -144,7 +84,6 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:12px 18p
     <p>Find fun things to do in Los Angeles or Orange County.</p>
   </div>
 </header>
-
 <main>
   <section class="panel">
     <h2>1. Your weekend</h2>
@@ -153,6 +92,9 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:12px 18p
         <label class="field" for="traveler">Who's going?</label>
         <select id="traveler">
           <option>Everyone</option>
+          <option>Jason</option>
+          <option>Jen</option>
+          <option>Julia</option>
           <option>Brandy</option>
           <option>Tinsley</option>
           <option>Reef</option>
@@ -180,10 +122,8 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:12px 18p
       <div>
         <label class="field" for="pace">Preferred pace</label>
         <select id="pace">
-          <option>Balanced</option>
-          <option>Relaxed</option>
-          <option>Pack the day</option>
-          <option>Active and adventurous</option>
+          <option>Balanced</option><option>Relaxed</option>
+          <option>Pack the day</option><option>Active and adventurous</option>
         </select>
       </div>
       <div>
@@ -193,11 +133,8 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:12px 18p
       <div>
         <label class="field" for="time">Time available</label>
         <select id="time">
-          <option>Any time</option>
-          <option>Morning</option>
-          <option>Afternoon</option>
-          <option>Evening</option>
-          <option>All day</option>
+          <option>Any time</option><option>Morning</option>
+          <option>Afternoon</option><option>Evening</option><option>All day</option>
         </select>
       </div>
     </div>
@@ -215,21 +152,18 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:12px 18p
 
   <section class="panel">
     <h2>3. Your weekend report</h2>
-    <p class="hint">Generate a shareable summary of your preferences and selected places.</p>
+    <p class="hint">Generate a summary of your preferences and selected places.</p>
     <div class="actions">
-      <button id="generate">Generate Report</button>
-      <button id="copy" class="secondary">Copy Report</button>
-      <button id="copyPrefs" class="secondary">Copy Preferences</button>
-      <button id="clear" class="secondary">Clear Selections</button>
+      <button id="generate" type="button">Generate Report</button>
+      <button id="copy" class="secondary" type="button">Copy Report</button>
+      <button id="copyPrefs" class="secondary" type="button">Copy Preferences</button>
+      <button id="clear" class="secondary" type="button">Clear Selections</button>
     </div>
     <p id="status" role="status" aria-live="polite"></p>
     <div id="report">Your report will appear here after you tap Generate Report.</div>
   </section>
 </main>
-
-<footer>
-  A curated starter guide. Check official websites for current hours, tickets, prices, and event schedules.
-</footer>
+<footer>A curated starter guide. Check official websites for current hours, tickets, prices, and events.</footer>
 
 <script>
 "use strict";
@@ -237,76 +171,76 @@ footer { text-align:center; color:var(--muted); font-size:12px; padding:12px 18p
 const activities = {
   "Sightseeing & Outdoors": {
     LA: [
-      {name:"Griffith Observatory",desc:"Iconic city views, exhibits, and nearby hiking.",cost:"Free general admission; planetarium extra",budget:"Free",time:"Afternoon",pace:"Active"},
-      {name:"The Getty Center",desc:"Art, gardens, architecture, and sweeping views.",cost:"Free admission; parking fee",budget:"Low",time:"Afternoon",pace:"Relaxed"},
-      {name:"Santa Monica Pier",desc:"Oceanfront stroll, amusement rides, and sunset.",cost:"Free to visit; rides cost extra",budget:"Low",time:"Evening",pace:"Balanced"},
-      {name:"Runyon Canyon",desc:"Popular urban hike with city views.",cost:"Free",budget:"Free",time:"Morning",pace:"Active"}
+      {name:"Griffith Observatory",desc:"Iconic city views, exhibits, and nearby hiking.",cost:"Free general admission; planetarium extra",budget:"Free"},
+      {name:"The Getty Center",desc:"Art, gardens, architecture, and sweeping views.",cost:"Free admission; parking fee",budget:"Low"},
+      {name:"Santa Monica Pier",desc:"Oceanfront stroll, amusement rides, and sunset.",cost:"Free to visit; rides extra",budget:"Low"},
+      {name:"Runyon Canyon",desc:"Popular urban hike with city views.",cost:"Free",budget:"Free"}
     ],
     OC: [
-      {name:"Laguna Beach",desc:"Dramatic coves, coastal walks, and art galleries.",cost:"Mostly free to explore; parking varies",budget:"Free",time:"Afternoon",pace:"Relaxed"},
-      {name:"Crystal Cove State Park",desc:"Coastal trails, tide pools, and beach scenery.",cost:"Parking fee may apply",budget:"Low",time:"Morning",pace:"Active"},
-      {name:"Newport Beach Peninsula",desc:"Beach walk, harbor atmosphere, and waterfront dining.",cost:"Free to explore; activities extra",budget:"Low",time:"Evening",pace:"Relaxed"},
-      {name:"Heisler Park",desc:"Clifftop paths and beautiful Laguna coastline.",cost:"Free",budget:"Free",time:"Afternoon",pace:"Relaxed"}
+      {name:"Laguna Beach",desc:"Dramatic coves, coastal walks, and art galleries.",cost:"Mostly free; parking varies",budget:"Free"},
+      {name:"Crystal Cove State Park",desc:"Coastal trails, tide pools, and beach scenery.",cost:"Parking fee may apply",budget:"Low"},
+      {name:"Newport Beach Peninsula",desc:"Beach walk, harbor atmosphere, and waterfront dining.",cost:"Free to explore; activities extra",budget:"Low"},
+      {name:"Heisler Park",desc:"Clifftop paths and beautiful Laguna coastline.",cost:"Free",budget:"Free"}
     ]
   },
   "Food & Drinks": {
     LA: [
-      {name:"Grand Central Market",desc:"Bustling downtown food hall with varied options.",cost:"Varies by vendor",budget:"Low",time:"Afternoon",pace:"Balanced"},
-      {name:"Original Farmers Market",desc:"Long-running market with casual food choices.",cost:"Varies by vendor",budget:"Low",time:"Afternoon",pace:"Relaxed"},
-      {name:"Koreatown Food Crawl",desc:"Explore Korean BBQ, bakeries, and casual eats.",cost:"Varies",budget:"Medium",time:"Evening",pace:"Active"}
+      {name:"Grand Central Market",desc:"Bustling downtown food hall with varied options.",cost:"Varies by vendor",budget:"Low"},
+      {name:"Original Farmers Market",desc:"Long-running market with casual food choices.",cost:"Varies by vendor",budget:"Low"},
+      {name:"Koreatown Food Crawl",desc:"Explore Korean BBQ, bakeries, and casual eats.",cost:"Varies",budget:"Medium"}
     ],
     OC: [
-      {name:"Anaheim Packing District",desc:"Food hall in a restored historic citrus packing house.",cost:"Varies by vendor",budget:"Low",time:"Evening",pace:"Balanced"},
-      {name:"4th Street Market",desc:"Compact food hall in downtown Santa Ana.",cost:"Varies by vendor",budget:"Low",time:"Afternoon",pace:"Balanced"},
-      {name:"Laguna Beach Dining",desc:"Pair coastal views with a meal or dessert.",cost:"Varies",budget:"Medium",time:"Evening",pace:"Relaxed"}
+      {name:"Anaheim Packing District",desc:"Food hall in a restored historic citrus packing house.",cost:"Varies by vendor",budget:"Low"},
+      {name:"4th Street Market",desc:"Food hall in downtown Santa Ana.",cost:"Varies by vendor",budget:"Low"},
+      {name:"Laguna Beach Dining",desc:"Pair coastal views with a meal or dessert.",cost:"Varies",budget:"Medium"}
     ]
   },
   "Shopping": {
     LA: [
-      {name:"The Grove",desc:"Outdoor shopping, restaurants, and people-watching.",cost:"Free to browse; purchases extra",budget:"Free",time:"Afternoon",pace:"Relaxed"},
-      {name:"Abbot Kinney Boulevard",desc:"Independent boutiques, cafés, and Venice style.",cost:"Free to browse; purchases extra",budget:"Free",time:"Afternoon",pace:"Relaxed"},
-      {name:"Melrose Avenue",desc:"Fashion, vintage stores, and colorful street art.",cost:"Free to browse; purchases extra",budget:"Free",time:"Afternoon",pace:"Active"}
+      {name:"The Grove",desc:"Outdoor shopping, restaurants, and people-watching.",cost:"Free to browse; purchases extra",budget:"Free"},
+      {name:"Abbot Kinney Boulevard",desc:"Independent boutiques, cafés, and Venice style.",cost:"Free to browse; purchases extra",budget:"Free"},
+      {name:"Melrose Avenue",desc:"Fashion, vintage stores, and colorful street art.",cost:"Free to browse; purchases extra",budget:"Free"}
     ],
     OC: [
-      {name:"South Coast Plaza",desc:"Major shopping destination with designer and mainstream brands.",cost:"Free to browse; purchases extra",budget:"Free",time:"Afternoon",pace:"Balanced"},
-      {name:"Fashion Island",desc:"Open-air shopping and dining in Newport Beach.",cost:"Free to browse; purchases extra",budget:"Free",time:"Afternoon",pace:"Relaxed"},
-      {name:"Old Towne Orange",desc:"Antiques, independent shops, and a historic plaza.",cost:"Free to browse; purchases extra",budget:"Free",time:"Afternoon",pace:"Relaxed"}
+      {name:"South Coast Plaza",desc:"Major shopping destination with designer and mainstream brands.",cost:"Free to browse; purchases extra",budget:"Free"},
+      {name:"Fashion Island",desc:"Open-air shopping and dining in Newport Beach.",cost:"Free to browse; purchases extra",budget:"Free"},
+      {name:"Old Towne Orange",desc:"Antiques, independent shops, and a historic plaza.",cost:"Free to browse; purchases extra",budget:"Free"}
     ]
   },
   "Arts & Culture": {
     LA: [
-      {name:"The Broad",desc:"Contemporary art museum in downtown LA.",cost:"General admission often free; reserve ahead",budget:"Free",time:"Afternoon",pace:"Relaxed"},
-      {name:"Walt Disney Concert Hall",desc:"Striking architecture and possible performances or tours.",cost:"Tours and events vary",budget:"Medium",time:"Evening",pace:"Relaxed"},
-      {name:"Academy Museum of Motion Pictures",desc:"Film history, costumes, and movie exhibits.",cost:"Ticket prices vary",budget:"Medium",time:"Afternoon",pace:"Relaxed"}
+      {name:"The Broad",desc:"Contemporary art museum in downtown LA.",cost:"Admission often free; reserve ahead",budget:"Free"},
+      {name:"Walt Disney Concert Hall",desc:"Striking architecture and possible performances or tours.",cost:"Tours and events vary",budget:"Medium"},
+      {name:"Academy Museum of Motion Pictures",desc:"Film history, costumes, and movie exhibits.",cost:"Ticket prices vary",budget:"Medium"}
     ],
     OC: [
-      {name:"Laguna Art Museum",desc:"California art overlooking the coast.",cost:"Admission varies",budget:"Low",time:"Afternoon",pace:"Relaxed"},
-      {name:"Mission San Juan Capistrano",desc:"Historic mission, gardens, and California history.",cost:"Admission fee",budget:"Low",time:"Afternoon",pace:"Relaxed"},
-      {name:"Bowers Museum",desc:"Art and cultural exhibitions in Santa Ana.",cost:"Admission fee",budget:"Low",time:"Afternoon",pace:"Relaxed"}
+      {name:"Laguna Art Museum",desc:"California art overlooking the coast.",cost:"Admission varies",budget:"Low"},
+      {name:"Mission San Juan Capistrano",desc:"Historic mission, gardens, and California history.",cost:"Admission fee",budget:"Low"},
+      {name:"Bowers Museum",desc:"Art and cultural exhibitions in Santa Ana.",cost:"Admission fee",budget:"Low"}
     ]
   },
   "Activities & Adventure": {
     LA: [
-      {name:"Universal Studios Hollywood",desc:"Movie-themed rides, studio tour, and attractions.",cost:"Paid admission; prices vary",budget:"High",time:"All day",pace:"Active"},
-      {name:"Griffith Park",desc:"Trails, outdoor spaces, and family-friendly stops.",cost:"Many areas free; attractions extra",budget:"Free",time:"Morning",pace:"Active"},
-      {name:"California Science Center",desc:"Hands-on science exhibits and space exploration.",cost:"Some exhibits free; special exhibits vary",budget:"Free",time:"Afternoon",pace:"Balanced"}
+      {name:"Universal Studios Hollywood",desc:"Movie-themed rides, studio tour, and attractions.",cost:"Paid admission; prices vary",budget:"High"},
+      {name:"Griffith Park",desc:"Trails, outdoor spaces, and family-friendly stops.",cost:"Many areas free; attractions extra",budget:"Free"},
+      {name:"California Science Center",desc:"Hands-on science exhibits and space exploration.",cost:"Some exhibits free; special exhibits vary",budget:"Free"}
     ],
     OC: [
-      {name:"Disneyland Resort",desc:"Theme parks, attractions, and immersive experiences.",cost:"Paid admission; prices vary",budget:"High",time:"All day",pace:"Active"},
-      {name:"Dana Point Harbor",desc:"Harbor strolls, boat trips, and ocean activities.",cost:"Walking is free; activities extra",budget:"Low",time:"Afternoon",pace:"Balanced"},
-      {name:"Balboa Fun Zone",desc:"Waterfront amusement attractions and harbor views.",cost:"Activities cost extra",budget:"Low",time:"Afternoon",pace:"Balanced"}
+      {name:"Disneyland Resort",desc:"Theme parks, attractions, and immersive experiences.",cost:"Paid admission; prices vary",budget:"High"},
+      {name:"Dana Point Harbor",desc:"Harbor strolls, boat trips, and ocean activities.",cost:"Walking is free; activities extra",budget:"Low"},
+      {name:"Balboa Fun Zone",desc:"Waterfront amusement attractions and harbor views.",cost:"Activities cost extra",budget:"Low"}
     ]
   },
   "Nightlife & Evening": {
     LA: [
-      {name:"West Hollywood",desc:"Restaurants, live music, and lively nightlife.",cost:"Varies",budget:"Medium",time:"Evening",pace:"Active"},
-      {name:"Santa Monica Sunset",desc:"Oceanfront sunset followed by dinner or dessert.",cost:"Free to stroll; food extra",budget:"Low",time:"Evening",pace:"Relaxed"},
-      {name:"Hollywood Bowl",desc:"Outdoor concert venue with seasonal performances.",cost:"Ticket prices vary",budget:"High",time:"Evening",pace:"Relaxed"}
+      {name:"West Hollywood",desc:"Restaurants, live music, and lively nightlife.",cost:"Varies",budget:"Medium"},
+      {name:"Santa Monica Sunset",desc:"Oceanfront sunset followed by dinner or dessert.",cost:"Free to stroll; food extra",budget:"Low"},
+      {name:"Hollywood Bowl",desc:"Outdoor concert venue with seasonal performances.",cost:"Ticket prices vary",budget:"High"}
     ],
     OC: [
-      {name:"Huntington Beach Main Street",desc:"Casual dining and a lively walk near the pier.",cost:"Free to explore; food extra",budget:"Low",time:"Evening",pace:"Balanced"},
-      {name:"Downtown Laguna Beach",desc:"Coastal dining, galleries, and evening strolls.",cost:"Free to explore; food extra",budget:"Medium",time:"Evening",pace:"Relaxed"},
-      {name:"Old Towne Orange Plaza",desc:"Historic square with restaurants and cafés.",cost:"Free to explore; food extra",budget:"Low",time:"Evening",pace:"Relaxed"}
+      {name:"Huntington Beach Main Street",desc:"Casual dining and a lively walk near the pier.",cost:"Free to explore; food extra",budget:"Low"},
+      {name:"Downtown Laguna Beach",desc:"Coastal dining, galleries, and evening strolls.",cost:"Free to explore; food extra",budget:"Medium"},
+      {name:"Old Towne Orange Plaza",desc:"Historic square with restaurants and cafés.",cost:"Free to explore; food extra",budget:"Low"}
     ]
   }
 };
@@ -315,55 +249,49 @@ const categoryNames = Object.keys(activities);
 let activeCategory = categoryNames[0];
 const selected = new Set();
 
-const categoriesEl = document.getElementById("categories");
-const placeListEl = document.getElementById("placeList");
-const countEl = document.getElementById("count");
-const statusEl = document.getElementById("status");
-const reportEl = document.getElementById("report");
+const $ = id => document.getElementById(id);
+const categoriesEl = $("categories");
+const placeListEl = $("placeList");
+const countEl = $("count");
+const statusEl = $("status");
+const reportEl = $("report");
 
 function getPreferences() {
   return {
-    traveler: document.getElementById("traveler").value,
-    destination: document.getElementById("destination").value,
-    budget: document.getElementById("budget").value,
-    pace: document.getElementById("pace").value,
-    date: document.getElementById("startDate").value,
-    time: document.getElementById("time").value,
-    notes: document.getElementById("notes").value.trim()
+    traveler:$("traveler").value,
+    destination:$("destination").value,
+    budget:$("budget").value,
+    pace:$("pace").value,
+    date:$("startDate").value,
+    time:$("time").value,
+    notes:$("notes").value.trim()
   };
 }
-
 function destinationsFor(pref) {
-  if (pref.destination === "Either") return ["LA", "OC"];
-  return [pref.destination];
+  return pref.destination === "Either" ? ["LA","OC"] : [pref.destination];
 }
-
 function allPlaces() {
   const result = [];
   for (const category of categoryNames) {
-    for (const city of ["LA", "OC"]) {
-      for (const place of activities[category][city]) {
-        result.push({...place, category, city});
-      }
+    for (const city of ["LA","OC"]) {
+      for (const place of activities[category][city]) result.push({...place,category,city});
     }
   }
   return result;
 }
-
-function matchesBudget(place, budget) {
+function matchesBudget(place,budget) {
   if (budget === "Any") return true;
-  const levels = {Free:0, Low:1, Medium:2, High:3};
+  const levels = {Free:0,Low:1,Medium:2,High:3};
   return levels[place.budget] <= levels[budget];
 }
-
 function renderCategories() {
   categoriesEl.innerHTML = "";
   for (const name of categoryNames) {
     const button = document.createElement("button");
-    button.className = "category" + (name === activeCategory ? " active" : "");
     button.type = "button";
+    button.className = "category" + (name === activeCategory ? " active" : "");
     button.textContent = name;
-    button.addEventListener("click", () => {
+    button.addEventListener("click",() => {
       activeCategory = name;
       renderCategories();
       renderPlaces();
@@ -371,30 +299,26 @@ function renderCategories() {
     categoriesEl.appendChild(button);
   }
 }
-
 function renderPlaces() {
   const pref = getPreferences();
   const cities = destinationsFor(pref);
-  const places = activities[activeCategory];
   placeListEl.innerHTML = "";
   let shown = 0;
 
   for (const city of cities) {
-    for (const place of places[city]) {
-      if (!matchesBudget(place, pref.budget)) continue;
+    for (const place of activities[activeCategory][city]) {
+      if (!matchesBudget(place,pref.budget)) continue;
       shown++;
       const key = activeCategory + "|" + city + "|" + place.name;
       const card = document.createElement("article");
       card.className = "place";
-
       const top = document.createElement("div");
       top.className = "place-top";
-
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.checked = selected.has(key);
-      checkbox.setAttribute("aria-label", "Select " + place.name);
-      checkbox.addEventListener("change", () => {
+      checkbox.setAttribute("aria-label","Select " + place.name);
+      checkbox.addEventListener("change",() => {
         if (checkbox.checked) selected.add(key);
         else selected.delete(key);
         updateCount();
@@ -403,103 +327,75 @@ function renderPlaces() {
       const details = document.createElement("div");
       const title = document.createElement("h3");
       title.textContent = place.name;
-      const description = document.createElement("p");
-      description.textContent = place.desc;
+      const desc = document.createElement("p");
+      desc.textContent = place.desc;
       const tags = document.createElement("div");
       tags.className = "tags";
-      for (const text of [city === "LA" ? "Los Angeles" : "Orange County", place.cost]) {
+      for (const text of [city === "LA" ? "Los Angeles" : "Orange County",place.cost]) {
         const tag = document.createElement("span");
         tag.className = "tag";
         tag.textContent = text;
         tags.appendChild(tag);
       }
       const link = document.createElement("a");
-      link.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(place.name + (city === "LA" ? ", Los Angeles, CA" : ", Orange County, CA"));
+      link.href = "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(place.name + (city === "LA" ? ", Los Angeles, CA" : ", Orange County, CA"));
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       link.textContent = "Open in Google Maps ↗";
-
-      details.append(title, description, tags, link);
-      top.append(checkbox, details);
+      details.append(title,desc,tags,link);
+      top.append(checkbox,details);
       card.appendChild(top);
       placeListEl.appendChild(card);
     }
   }
-
-  if (shown === 0) {
-    placeListEl.textContent = "No places in this category match that budget. Try a more flexible budget.";
-  }
+  if (!shown) placeListEl.textContent = "No places match this budget. Try a more flexible budget.";
   updateCount();
 }
-
 function updateCount() {
   countEl.textContent = selected.size + " place" + (selected.size === 1 ? "" : "s") + " selected across all categories.";
 }
-
 function getSelectedPlaces() {
-  return allPlaces().filter(place => {
-    const key = place.category + "|" + place.city + "|" + place.name;
-    return selected.has(key);
-  });
+  return allPlaces().filter(place => selected.has(place.category + "|" + place.city + "|" + place.name));
 }
-
 function generateReport() {
-  const pref = getPreferences();
+  const p = getPreferences();
   const chosen = getSelectedPlaces();
-  const cityLabel = pref.destination === "Either"
-    ? "Los Angeles or Orange County"
-    : pref.destination === "LA" ? "Los Angeles" : "Orange County";
-
+  const destination = p.destination === "Either" ? "Los Angeles or Orange County" : p.destination === "LA" ? "Los Angeles" : "Orange County";
   const lines = [
     "WEEKEND ADVENTURE PLAN",
     "======================",
-    "Who's going: " + pref.traveler,
-    "Destination: " + cityLabel,
-    "Budget per person: " + ({
-      Any:"Flexible",
-      Free:"Free or under $20",
-      Low:"Under $50",
-      Medium:"Under $100",
-      High:"Special occasion"
-    }[pref.budget]),
-    "Preferred pace: " + pref.pace,
-    "Date: " + (pref.date || "Not specified"),
-    "Time available: " + pref.time,
-    "Interests / notes: " + (pref.notes || "None added"),
+    "Who's going: " + p.traveler,
+    "Destination: " + destination,
+    "Budget: " + ({Any:"Flexible",Free:"Free or under $20",Low:"Under $50",Medium:"Under $100",High:"Special occasion"}[p.budget]),
+    "Preferred pace: " + p.pace,
+    "Date: " + (p.date || "Not specified"),
+    "Time available: " + p.time,
+    "Interests / notes: " + (p.notes || "None added"),
     "",
     "SELECTED PLACES (" + chosen.length + ")",
     "----------------------"
   ];
-
-  if (chosen.length === 0) {
-    lines.push("No places selected yet. Go to Explore Activities, check the boxes next to places you like, then generate the report again.");
+  if (!chosen.length) {
+    lines.push("No places selected yet. Check the boxes next to places you like, then generate the report again.");
   } else {
-    chosen.forEach((place, index) => {
+    chosen.forEach((place,i) => {
+      const city = place.city === "LA" ? "Los Angeles" : "Orange County";
       lines.push(
-        (index + 1) + ". " + place.name + " — " + (place.city === "LA" ? "Los Angeles" : "Orange County"),
+        (i+1) + ". " + place.name + " — " + city,
         "   Category: " + place.category,
         "   " + place.desc,
         "   Cost: " + place.cost,
-        "   Map: https://www.google.com/maps/search/?api=1&query=" +
-          encodeURIComponent(place.name + (place.city === "LA" ? ", Los Angeles, CA" : ", Orange County, CA")),
+        "   Map: https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(place.name + ", " + city + ", CA"),
         ""
       );
     });
   }
-
-  lines.push(
-    "NEXT STEPS",
-    "----------",
-    "Check opening hours, tickets, reservations, traffic, and parking before leaving.",
-    "This is a curated starter list, not a live availability or event search."
-  );
-
+  lines.push("NEXT STEPS","----------","Check opening hours, tickets, reservations, traffic, and parking before leaving.","This is a curated starter list, not a live event search.");
   reportEl.textContent = lines.join("\n");
   statusEl.textContent = "Report generated successfully.";
-  reportEl.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
-
-async function copyText(text, successMessage) {
+async function copyText(text,successMessage) {
   try {
     if (navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(text);
@@ -513,25 +409,19 @@ async function copyText(text, successMessage) {
       area.select();
       const ok = document.execCommand("copy");
       area.remove();
-      if (!ok) throw new Error("Copy not available");
+      if (!ok) throw new Error("Copy unavailable");
     }
     statusEl.textContent = successMessage;
-  } catch (error) {
-    statusEl.textContent = "Automatic copy wasn't available. Press and hold the report text, select it, and tap Copy.";
+  } catch (e) {
+    statusEl.textContent = "Copy unavailable here. Press and hold the report text to select and copy it.";
   }
 }
 
-document.getElementById("generate").addEventListener("click", generateReport);
-document.getElementById("copy").addEventListener("click", () => {
-  if (!reportEl.textContent.trim()) {
-    statusEl.textContent = "Generate your report first.";
-    return;
-  }
-  copyText(reportEl.textContent, "Report copied. You can paste it into a message.");
-});
-document.getElementById("copyPrefs").addEventListener("click", () => {
+$("generate").addEventListener("click",generateReport);
+$("copy").addEventListener("click",() => copyText(reportEl.textContent,"Report copied."));
+$("copyPrefs").addEventListener("click",() => {
   const p = getPreferences();
-  const text = [
+  copyText([
     "Weekend preferences",
     "Who's going: " + p.traveler,
     "Destination: " + p.destination,
@@ -541,18 +431,16 @@ document.getElementById("copyPrefs").addEventListener("click", () => {
     "Time: " + p.time,
     "Notes: " + (p.notes || "None"),
     "Selected places: " + getSelectedPlaces().map(x => x.name).join(", ")
-  ].join("\n");
-  copyText(text, "Preferences copied.");
+  ].join("\n"),"Preferences copied.");
 });
-document.getElementById("clear").addEventListener("click", () => {
+$("clear").addEventListener("click",() => {
   selected.clear();
   renderPlaces();
   statusEl.textContent = "Selections cleared.";
   reportEl.textContent = "Your report will appear here after you tap Generate Report.";
 });
-
-document.getElementById("destination").addEventListener("change", renderPlaces);
-document.getElementById("budget").addEventListener("change", renderPlaces);
+$("destination").addEventListener("change",renderPlaces);
+$("budget").addEventListener("change",renderPlaces);
 
 renderCategories();
 renderPlaces();
